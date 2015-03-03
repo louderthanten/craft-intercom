@@ -3,15 +3,30 @@ window.intercomSettings = {
   name: "{{ currentUser.friendlyName}}",
   email: " {{ currentUser.email }} ",
   app_id: "{{ settings.app_id }}",
+  "user_id": "{{ currentUser.username }}",
+  unsubscribed_from_emails: {% if currentUser.addToMailingList %}false{% else %}true{% endif %},
   "admin": "{{ currentUser.admin }}",
   "user_hash": "{{ user_hash }}",
+  "custom_attributes":{
+    "lt10_subscriber": {% if currentUser.subscriber %}true{% else %}false{% endif %},
+  },
   "company": {
-    "id": "{{ siteUrl }}",
-    "name": "{{ siteName }}",
-    "url": "{{ siteUrl }}",
+    "id": "{{ currentUser.organizationUrl }}",
+    "name": "{{ currentUser.organization }}",
+    "url": "{{ currentUser.organizationUrl }}",
     "plan": "pro",
     "system": "craft",
     "version": "{{ version }}"
+  },
+  "social_profiles": {
+    "type":"social_profile.list",
+    "social_profiles": [
+      {
+        "name": "Twitter",
+        "username": "{{ user.twitterHandle | replace({('@'): '' }) }}",
+        "url": "http://twitter.com/{{ user.twitterHandle | replace({('@'): '' }) }}"
+      }
+    ]
   }
 };
 </script>
